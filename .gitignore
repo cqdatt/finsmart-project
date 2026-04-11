@@ -1,1 +1,25 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.zip
+
+# Maven
 target/
+
+# IDE
+.idea/
+.vscode/
+.settings/
+
+# Database config
+src/main/resources/db.properties
+
+# OS files
+.DS_Store
+Thumbs.db
