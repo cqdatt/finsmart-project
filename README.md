@@ -1,15 +1,14 @@
-1. Java JDK 8+  
+1. Java JDK 17  
 Kiểm tra đã cài chưa:
 ```
 powershell  
 java -version
 ```
 Nếu chưa có:    
-Tải tại: https://www.oracle.com/java/technologies/javase-jdk8-downloads.html  
-Hoặc dùng JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html  
+Dùng JDK 17: https://www.oracle.com/java/technologies/javase-jdk17-downloads.html  
 Cài đặt → Restart máy  
 
-3. Apache Tomcat 9+  
+3. Apache Tomcat 9  
 ```
 # Kiểm tra xem Tomcat đã cài chưa
 Test-Path "C:\Program Files\Apache\Tomcat9"
@@ -28,7 +27,7 @@ Chọn "MySQL Installer for Windows"
 Cài đặt MySQL Server 8.0
 Nhớ password root (sẽ dùng sau)
 
-5. Maven 3.6+  
+5. Maven 3.9.14
 ```
 mvn --version
 ```
