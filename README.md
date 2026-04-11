@@ -229,3 +229,21 @@ Start Tomcat
 cd "C:\Program Files\Apache\Tomcat9\bin"
 .\startup.bat
 ```
+
+### Quick Start: 
+```
+# 1. Về project folder  
+cd "D:\PTIT\Kì 6\OOP\finsmart-project"
+# 2. Clean và build
+>> mvn clean package -DskipTests
+```
+Tiếp
+```
+# 4. Copy fresh WAR
+Copy-Item "D:\PTIT\Kì 6\OOP\finsmart-project\target\finsmart.war" ` "C:\Program Files\Apache\Tomcat9\webapps\finsmart.war" -Force
+ # 5. Wait for extraction
+Start-Sleep -Seconds 10 
+# 6. Start Tomcat
+.\startup.bat
+Start-Sleep -Seconds 15
+```
