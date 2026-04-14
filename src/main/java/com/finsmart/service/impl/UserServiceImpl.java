@@ -24,38 +24,55 @@ public class UserServiceImpl implements IUserService {  //  Implements đúng in
     
     @Override
     public User login(String username, String password) throws SQLException, ClassNotFoundException {
-        
-        System.out.println("=== UserServiceImpl.login ===");
-        System.out.println("Username: " + username);
-        System.out.println("Password (input): " + password);
-        
-        // Find user by username
         User user = userDAO.findByUsername(username);
-        
-        if (user == null) {
-            System.out.println("User not found!");
+
+        if (user == null || !user.isActive()) {
             return null;
         }
-        
-        System.out.println("User found!");
-        System.out.println("Password (DB): " + user.getPassword());
-        
-        // ✅ PLAIN TEXT COMPARISON
-        if (password.equals(user.getPassword())) {
-            System.out.println("✅ Login successful!");
-            return user;
+
+        String storedPassword = user.getPassword();
+        if (storedPassword == null || password == null) {
+            return null;
         }
-        
-        System.out.println("❌ Password mismatch!");
-        return null;
+
+        boolean authenticated = false;
+
+        // Hỗ trợ đúng chuẩn BCrypt cho tài khoản mới
+        if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
+            authenticated = BCrypt.checkpw(password, storedPassword);
+        } else {
+            // Tương thích ngược cho dữ liệu cũ đang lưu plain text
+            authenticated = password.equals(storedPassword);
+            if (authenticated) {
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+                userDAO.changePassword(user.getId(), hashedPassword);
+                user.setPassword(hashedPassword);
+            }
+        }
+
+        if (!authenticated) {
+            return null;
+        }
+
+        userDAO.updateLastLogin(user.getId());
+        user.setPassword(null);
+        return user;
     }
     
     @Override
     public boolean register(User user) throws SQLException, ClassNotFoundException {
-        // Check if username exists
         if (userDAO.findByUsername(user.getUsername()) != null) {
             return false;
         }
+
+        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
+            return false;
+        }
+
+        if (!(user.getPassword().startsWith("$2a$") || user.getPassword().startsWith("$2b$") || user.getPassword().startsWith("$2y$"))) {
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+        }
+
         return userDAO.create(user);
     }
     // ========== IService GENERIC METHODS ==========

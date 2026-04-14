@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            User user = userService.login(username, password);
+            User user = userService.authenticate(username, password);
 
             if (user != null) {
                 HttpSession session = request.getSession();
