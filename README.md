@@ -83,13 +83,14 @@ CREATE TABLE users (
     INDEX idx_email (email)
 );
 
--- 2. Bảng Categories
+-- 2. Bảng Categories ✅ ĐÃ THÊM budget_limit
 CREATE TABLE categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NULL,
     name VARCHAR(100) NOT NULL,
     type ENUM('INCOME', 'EXPENSE') NOT NULL,
     icon VARCHAR(50) DEFAULT 'fas fa-tag',
+    budget_limit DECIMAL(15,2) DEFAULT NULL,  -- ✅ THÊM DÒNG NÀY
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE INDEX idx_cat_user_name_type (user_id, name, type),
     INDEX idx_cat_type (type)
@@ -106,7 +107,7 @@ CREATE TABLE transactions (
     type ENUM('INCOME', 'EXPENSE') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES categories(id),  -- ✅ CHỈ REFERENCE id
+    FOREIGN KEY (category_id) REFERENCES categories(id),
     INDEX idx_trans_user_date (user_id, transaction_date),
     INDEX idx_trans_category (category_id)
 );
