@@ -164,11 +164,6 @@ INSERT INTO transactions (user_id, category_id, type, amount, transaction_date, 
 (1, 6, 'EXPENSE', 200000, CURDATE() - INTERVAL 3 DAY, 'Mua áo mới'),
 (1, 7, 'EXPENSE', 100000, CURDATE() - INTERVAL 1 DAY, 'Xem phim với bạn');
 
--- Insert ngân sách mẫu
-INSERT INTO budgets (user_id, category_id, month, year, amount_limit) VALUES
-(1, 4, MONTH(CURDATE()), YEAR(CURDATE()), 2000000),
-(1, NULL, MONTH(CURDATE()), YEAR(CURDATE()), 10000000);
-
 -- Verify data
 SELECT 'Users:' as table_name, COUNT(*) as count FROM users
 UNION ALL
